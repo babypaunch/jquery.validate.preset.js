@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1">
+    <title>VALIDATOR</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style>
+		@import url(https://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+		* {
+			font-family: 'Nanum Gothic', sans-serif;
+			padding: 0;
+			margin: 0;
+		}
+		
+		html, body {
+			width: 100%;
+			height: 100%;
+		}
+		
+		.layer {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			display: table;
+			position: fixed;
+		}
+		
+		.cell {
+			display: table-cell;
+			vertical-align: middle;
+			width: 0;
+			height: 0;
+			margin: 0 auto;
+		}
+		
+		form {
+			width: 700px;
+			margin: 0 auto;
+		}
+		
+		.form-control {
+			border-width: 1px;
+		}
+	</style>
+</head>
+<body>
+	<div class="layer">
+		<div class="cell">
+			<form id="form" autocomplete="off" method="post" action="http://localhost:3000/hapi">
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="id" placeholder="* ID"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" id="pw" name="pw" placeholder="* Password"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="rePw" placeholder="* Confirm Password"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="email" placeholder="E-Mail"/>
+				</div>
+				<div class="form-group col-xs-2">
+					<input type="text" class="form-control" name="name" placeholder="이름"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="juminNum" placeholder="주민등록번호"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="bizNum" placeholder="사업자등록번호"/>
+				</div>
+				<div class="form-group col-xs-2">
+					<input type="text" class="form-control" name="zip" placeholder="우편번호"/>
+				</div>
+				<div class="form-group col-xs-5">
+					<input type="text" class="form-control" name="addr1" placeholder="주소"/>
+				</div>
+				<div class="form-group col-xs-5">
+					<input type="text" class="form-control" name="addr2" placeholder="나머지 주소"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="date" placeholder="날짜"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="time" placeholder="시간"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="cell" placeholder="모바일"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="phone" placeholder="전화번호"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="ip" placeholder="IPv4"/>
+				</div>
+				<div class="form-group col-xs-6">
+					<input type="text" class="form-control" name="ipv6" placeholder="IPv6"/>
+				</div>
+				<div class="form-group col-xs-3">
+					<input type="text" class="form-control" name="mac" placeholder="MAC Address"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="num" placeholder="숫자만"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="en" placeholder="소문자만"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="EN" placeholder="대문자만"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="En" placeholder="대/소문자만"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="numEn" placeholder="숫자, 대/소문자만"/>
+				</div>
+				<div class="form-group col-xs-4">
+					<input type="text" class="form-control" name="ko" placeholder="한글만"/>
+				</div>
+				<div class="form-group col-xs-12">
+					<input type="text" class="form-control" name="home" placeholder="홈페이지 URL"/>
+				</div>
+				<div class="form-group col-xs-6" style="padding-top: 10px;">
+					<button type="button" id="fn_submit" class="form-control btn btn-primary">SUBMIT</button>
+				</div>
+				<div class="form-group col-xs-6" style="padding-top: 10px;">
+					<button type="button" id="async" class="form-control btn btn-default">ASYNC</button>
+				</div>
+			</form>
+		</div>
+	</div>
+    <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.js"></script>
+	<script src="./jquery.validate.preset.js"></script>
+	<script>
+		$(function(){
+			//$("#form").validate($V.preset("id")); //딱 하나의 input 태그의 name만 등록시
+
+			$("#form").validate($V.preset([
+				"id"
+				, "pw"
+				, "rePw"
+				, "email"
+				, "name"
+				, "juminNum"
+				, "bizNum"
+				, "zip"
+				, "addr1"
+				, "addr2"
+				, "date"
+				, "time"
+				, "cell"
+				, "phone"
+				, "ip"
+				, "ipv6"
+				, "mac"
+				, "num"
+				, "en"
+				, "EN"
+				, "En"
+				, "numEn"
+				, "ko"
+				, "home"
+			], "background"));
+			
+			//SUBMIT 버튼 클릭시
+			$("#fn_submit").click(function(){
+				if($("#form").valid()){
+					$("#form").submit();
+				}else{
+					return false;
+				}
+			});
+
+			//비동기 버튼 클릭시
+			$("#async").click(function(){
+				if($("#form").valid()){
+					console.log("success");
+				}else{
+					console.log("fail");
+					return false;
+				}
+			});
+		});
+	</script>
+</body>
+</html>
