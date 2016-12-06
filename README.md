@@ -9,6 +9,11 @@
 <br/>
 <div>2. 전역변수 $V는 사용자 선택에 따라 변경해서 사용하면 된다.</div>
 
+## NOTICE ##
+* 기본적으로 jquery.validate.js의 사용법을 숙지해야 사용하기 용이함.
+* jquery.validate.js의 default option은 hidden field는 skip되도록 처리있음. hidden field도 valid check하기 위해 ignore property를 설정함.
+* checkbox에 대한 처리가 firefox에서는 정상적으로 처리되나, chrome/IE에서 정상처리되지 않음. 별도의 처리가 필요함.
+
 ### Example ###
     <html>
     <head>
