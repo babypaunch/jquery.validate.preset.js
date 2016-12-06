@@ -207,6 +207,7 @@ var $V = {
 		*/
 		var result = {
 			debug: false 
+			, ignore: []
 			, rules: {}
 			, messages: {}
 			, invalidHandler: function(f, v){
