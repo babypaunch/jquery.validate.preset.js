@@ -12,7 +12,7 @@
 ## NOTICE ##
 * 기본적으로 jquery.validate.js의 사용법을 숙지해야 사용하기 용이함.
 * jquery.validate.js의 default option은 hidden field는 skip되도록 처리있음. hidden field도 valid check하기 위해 ignore property를 설정함.
-* checkbox에 대한 처리가 firefox에서는 정상적으로 처리되나, chrome/IE에서 정상처리되지 않음. 별도의 처리가 필요함.
+* checkbox뿐만 아니라 jquery.validate.js에서 중복되는 name을 가진 element에 대한 처리가 미흡함. 일단은 반드시 name이 중복되지 않도록 사용해야함. 확인필요!
 
 ### Example ###
     <html>
