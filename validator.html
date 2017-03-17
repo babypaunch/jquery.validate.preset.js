@@ -140,6 +140,13 @@
 		$(function(){
 			//$("#form").validate($V.preset("id")); //딱 하나의 input 태그의 name만 등록시
 
+			/*
+			var vId = $V.preset(["id"], {lang: "ko"});
+			var vEmail = $V.preset(["email"], {lang: "en"});
+			$.extend(true, vId, vEmail);
+			console.log(vId);
+			*/
+
 			$("#form").validate($V.preset([
 				"id"
 				, "pw"
@@ -165,7 +172,7 @@
 				, "numEn"
 				, "ko"
 				, "home"
-			], "background"));
+			], {showStyle: "border", lang: "ko"}));
 			
 			//SUBMIT 버튼 클릭시
 			$("#fn_submit").click(function(){

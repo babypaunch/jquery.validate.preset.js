@@ -1,6 +1,7 @@
 /*
  * 개발: 정대규
  * 최초: 20161108
+ * 수정: 20170317
  */
 "use strict";
 
@@ -11,7 +12,13 @@ var $V = {
 	* jquery.validate.js에 이미 작성되어 있는 method명으로 추가하면 안됨. 이는 jquery.validate.js의 문서를 참조할 것.
 	* 추가 불가 method명: id/ID, name/NAME
 	*/
-	preset: function(names, showStyle){
+	preset: function(names, json){
+		var defaults = {
+			showStyle: "" //"border", "background"
+			, lang: "en" //set default language, ko, en, zh
+		};
+		$.extend(defaults, json);
+
 		var rePw = ""; //비밀번호 확인용 변수
 
 		/*
@@ -190,11 +197,11 @@ var $V = {
 		* style#v-valid-style이 없으면 .error 추가해서 invalidHandler에서 사용한다.
 		*/
 		if($("#v-valid-style").length === 0){
-			if(showStyle === "border"){
+			if(defaults.showStyle === "border"){
 				var border = "border: 2px solid #d9534f";
 				$("head").append("<style id='v-valid-style'>.error {" + border + "}</style>");
 			}
-			if(showStyle === "background"){
+			if(defaults.showStyle === "background"){
 				var background = "background: #d9534f";
 				$("head").append("<style id='v-valid-style'>.error {color: white; " + background + "}</style>");
 			}
@@ -237,6 +244,125 @@ var $V = {
 			}
 		}; //end: var result = {
 
+		var LANG = {
+			idRequired: {
+				ko: "ID는 필수 입력 항목입니다."
+				, en: ""
+			}
+			, userId: {
+				ko: "ID는 영문자로 시작하는 6~20자 영문자 또는 숫자로 입력해주세요."
+				, en: ""
+			}
+			, pw: {
+				ko: "암호는 특수문자나 숫자를 최소 1자 포함한 대/소문자를 8~20자까지 입력할 수 있습니다."
+				, en: ""
+			}
+			, pwStrong: {
+				ko: "암호는 특수문자와 숫자를 각각 최소 1자 포함한 대/소문자를 8~20자까지 입력할 수 있습니다."
+				, en: ""
+			}
+			, rePwEqualTo: {
+				ko: "암호가 일치하지 않습니다."
+				, en: ""
+			}
+			, email: {
+				ko: "E-mail 형식에 맞지 않습니다."
+				, en: "Not match with E-mail."
+			}
+			, emailMinLength: {
+				ko: "E-mail은 {0}자 이상 입력해주세요."
+				, en: ""
+			}
+			, nmMinLength: {
+				ko: "이름은 {0}자 이상 입력해주세요."
+				, en: ""
+			}
+			, userName: {
+				ko: "이름은 공백을 포함한 한글만 입력할 수 있습니다."
+				, en: ""
+			}
+			, urlSimple: {
+				ko: "URL 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, ko: {
+				ko: "한글만 입력할 수 있습니다."
+				, en: ""
+			}
+			, numEn: {
+				ko: "숫자와 대/소문자만 입력할 수 있습니다."
+				, en: ""
+			}
+			, En: {
+				ko: "대/소문자만 입력할 수 있습니다."
+				, en: ""
+			}
+			, EN: {
+				ko: "대문자만 입력할 수 있습니다."
+				, en: ""
+			}
+			, en: {
+				ko: "소문자만 입력할 수 있습니다."
+				, en: ""
+			}
+			, num: {
+				ko: "숫자만 입력할 수 있습니다."
+				, en: ""
+			}
+			, mac: {
+				ko: "MAC 주소 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, ipv6: {
+				ko: "IPv6 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, ipv4: {
+				ko: "IPv4 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, phone: {
+				ko: "전화 번호 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, mobile: {
+				ko: "휴대전화 번호 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, mobileMaxLength: {
+				ko: "휴대전화 번호는 '-'이 포함되는 경우 {0}자 이하로 입력해주세요."
+				, en: ""
+			}
+			, mobileMinLength: {
+				ko: "휴대전화 번호는 {0}자 이상 입력해주세요."
+				, en: ""
+			}
+			, time: {
+				ko: "시간 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, date: {
+				ko: "날짜 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, addr: {
+				ko: "주소 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, zip: {
+				ko: "우편번호 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, crn: {
+				ko: "사업자등록번호 형식에 맞지 않습니다."
+				, en: ""
+			}
+			, rrn: {
+				ko: "주민등록번호 형식에 맞지 않습니다."
+				, en: ""
+			}
+		}; //end: var LANG = {
+
 		/*
 		* rules는 method의 적용 여부를 정의한다.
 		* messages는 validate를 통과하지 못할 경우 alert로 출력할 메세지를 작성한다.
@@ -244,7 +370,7 @@ var $V = {
 		* r과 m의 property는 method와 동일해야 한다.
 		* names 배열 변수는 form내의 입력 요소중에 name attribute와 동일해야 한다.
 		*/
-		var addOn = function(result, name){
+		var addOn = function(result, name, lang){
 			var r = result.rules[name] = {};
 			var m = result.messages[name] = {};
 			var names = undefined;
@@ -252,170 +378,170 @@ var $V = {
 			names = ["id", "userId"];
 			if(names.indexOf(name) !== -1){
 				r.required = true;
-				m.required = "ID는 필수 입력 항목입니다.";
+				m.required = LANG.idRequired[lang];
 				r.userId = true;
-				m.userId = "ID는 영문자로 시작하는 6~20자 영문자 또는 숫자로 입력해주세요.";
+				m.userId = LANG.userId[lang];
 			}
 
 			names = ["pw", "pwd", "password", "userPw", "userPwd", "userPassword"];
 			if(names.indexOf(name) !== -1){
 				//r.pw = true;
-				//m.pw = "암호는 특수문자나 숫자를 최소 1자 포함한 대/소문자를 8~20자까지 입력할 수 있습니다.";
+				//m.pw = LANG.pw[lang];
 				r.pwStrong = true;
-				m.pwStrong = "암호는 특수문자와 숫자를 각각 최소 1자 포함한 대/소문자를 8~20자까지 입력할 수 있습니다.";
+				m.pwStrong = LANG.pwStrong[lang];
 				rePw = names[names.indexOf(name)];
 			}
 
 			names = ["rePw", "rePwd", "rePassword", "confirmPw", "confirmPwd", "confirmPassword"];
 			if(names.indexOf(name) !== -1){
 				//r.pw = true;
-				//m.pw = "암호는 특수문자나 숫자를 최소 1자 포함한 대/소문자를 8~20자까지 입력할 수 있습니다.";
+				//m.pw = LANG.pw[lang];
 				r.pwStrong = true;
-				m.pwStrong = "암호는 특수문자와 숫자를 각각 최소 1자 포함한 대/소문자를 8~20자까지 입력할 수 있습니다.";
+				m.pwStrong = LANG.pwStrong[lang];
 				r.equalTo = "[name='" + rePw + "']";
-				m.equalTo = "암호가 일치하지 않습니다.";
+				m.equalTo = LANG.rePwEqualTo[lang];
 			}
 
 			names = ["mail", "email"];
 			if(names.indexOf(name) !== -1){
 				r.email = true;
-				m.email = "E-mail 형식에 맞지 않습니다.";
+				m.email = LANG.email[lang];
 				r.minlength = 10;
-				m.minlength = $.validator.format("E-mail은 {0}자 이상 입력해주세요.");
+				m.minlength = $.validator.format(LANG.emailMinLength[lang]);
 			}
 
 			names = ["nm", "name", "userNm", "userName"];
 			if(names.indexOf(name) !== -1){
 				r.minlength = 2;
-				m.minlength = $.validator.format("이름은 {0}자 이상 입력해주세요.");
+				m.minlength = $.validator.format(LANG.nmMinLength[lang]);
 				r.userName = true;
-				m.userName = "이름은 공백을 포함한 한글만 입력할 수 있습니다.";
+				m.userName = LANG.userName[lang];
 			}
 
 			names = ["rrn", "jumin", "juminNum", "juminNo"];
 			if(names.indexOf(name) !== -1){
 				r.rrn = true;
-				m.rrn = "주민등록번호 형식에 맞지 않습니다.";
+				m.rrn = LANG.rrn[lang];
 			}
 
 			names = ["crn", "bizNum", "bizNo"];
 			if(names.indexOf(name) !== -1){
 				r.crn = true;
-				m.crn = "사업자등록번호 형식에 맞지 않습니다.";
+				m.crn = LANG.crn[lang];
 			}
 
 			names = ["zip", "zipCode", "zipCd", "zipNum", "zipNo"];
 			if(names.indexOf(name) !== -1){
 				r.zip = true;
-				m.zip = "우편번호 형식에 맞지 않습니다.";
+				m.zip = LANG.zip[lang];
 			}
 
 			names = ["addr1", "addr2"];
 			if(names.indexOf(name) !== -1){
 				r.addr = true;
-				r.addr = "주소 형식에 맞지 않습니다.";
+				r.addr = LANG.addr[lang];
 			}
 
 			names = ["date", "dt"];
 			if(names.indexOf(name) !== -1){
 				r.date = true;
-				m.date = "날짜 형식에 맞지 않습니다.";
+				m.date = LANG.date[lang];
 			}
 
 			names = ["time", "tm"];
 			if(names.indexOf(name) !== -1){
 				r.time = true;
-				m.time = "시간 형식에 맞지 않습니다.";
+				m.time = LANG.time[lang];
 			}
 
 			names = ["mobile", "cell"];
 			if(names.indexOf(name) !== -1){
 				r.minlength = 10;
-				m.minlength = "휴대전화 번호는 {0}자 이상 입력해주세요.";
+				m.minlength = LANG.mobileMinLength[lang];
 				r.maxlength = 13;
-				m.maxlength = "휴대전화 번호는 '-'이 포함되는 경우 {0}자 이하로 입력해주세요.";
+				m.maxlength = LANG.mobileMaxLength[lang];
 				r.mobile = true;
-				m.mobile = "휴대전화 번호 형식에 맞지 않습니다.";
+				m.mobile = LANG.mobile[lang];
 			}
 
 			names = ["phone"];
 			if(names.indexOf(name) !== -1){
 				r.phone = true;
-				m.phone = "전화 번호 형식에 맞지 않습니다.";
+				m.phone = LANG.phone[lang];
 			}
 
 			names = ["ip", "ipv4"];
 			if(names.indexOf(name) !== -1){
 				r.ipv4 = true;
-				m.ipv4 = "IPv4 형식에 맞지 않습니다.";
+				m.ipv4 = LANG.ipv4[lang];
 			}
 
 			names = ["ipv6"];
 			if(names.indexOf(name) !== -1){
 				r.ipv6 = true;
-				m.ipv6 = "IPv6 형식에 맞지 않습니다.";
+				m.ipv6 = LANG.ipv6[lang];
 			}
 
 			names = ["mac", "macAddr", "macAddress"];
 			if(names.indexOf(name) !== -1){
 				r.mac = true;
-				m.mac = "MAC 주소 형식에 맞지 않습니다.";
+				m.mac = LANG.mac[lang];
 			}
 
 			names = ["num", "number", "no"];
 			if(names.indexOf(name) !== -1){
 				r.num = true;
-				m.num = "소문자만 입력할 수 있습니다.";
+				m.num = LANG.num[lang];
 			}
 
 			names = ["en", "eng"];
 			if(names.indexOf(name) !== -1){
 				r.en = true;
-				m.en = "소문자만 입력할 수 있습니다.";
+				m.en = LANG.en[lang];
 			}
 
 			names = ["EN", "ENG"];
 			if(names.indexOf(name) !== -1){
 				r.EN = true;
-				m.EN = "대문자만 입력할 수 있습니다.";
+				m.EN = LANG.EN[lang];
 			}
 
 			names = ["En", "Eng"];
 			if(names.indexOf(name) !== -1){
 				r.En = true;
-				m.En = "대/소문자만 입력할 수 있습니다.";
+				m.En = LANG.En[lang];
 			}
 
 			names = ["numEn", "numEng"];
 			if(names.indexOf(name) !== -1){
 				r.numEn = true;
-				m.numEn = "숫자와 대/소문자만 입력할 수 있습니다.";
+				m.numEn = LANG.numEn[lang];
 			}
 
 			names = ["ko", "kor"];
 			if(names.indexOf(name) !== -1){
 				r.ko = true;
-				m.ko = "한글만 입력할 수 있습니다.";
+				m.ko = LANG.ko[lang];
 			}
 
 			names = ["home", "homepage", "url"];
 			if(names.indexOf(name) !== -1){
 				r.urlSimple = true;
-				m.urlSimple = "URL 형식에 맞지 않습니다.";
+				m.urlSimple = LANG.urlSimple[lang];
 			}
-		} //end: var addOn = function(result, name){
+		} //end: var addOn = function(result, name, lang){
 
 		/*
 		* 파라미터를 구분해서 for문 처리한다.
 		*/
 		if($.type(names) === "array"){
 			for(var i = 0; i < names.length; i++){
-				addOn(result, names[i]);
+				addOn(result, names[i], defaults.lang);
 			}
 		}else{ //문자열이면
-			addOn(result, names);
+			addOn(result, names, defaults.lang);
 		}
 
 		return result;
-	} //end: preset: function(names, showStyle){
+	} //end: preset: function(names, json){
 }; //end: var $V = {
